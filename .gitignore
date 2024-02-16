@@ -21,3 +21,7 @@ bin
 # IDE files
 .idea
 .vscode
+
+# node modules
+node_modules
+bun.lockb
