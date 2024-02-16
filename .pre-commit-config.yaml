@@ -1,0 +1,28 @@
+# Pre Commit Hook Configuration
+#
+# 1. Install using python: pip install pre-commit
+# 2. In the project repo, run: pre-commit install. Validate its execution using ls -la .git/hooks. It has to be run everytime there is a change in the hook configuration file
+# 3. Install golang lint, run: brew install golangci-lint, or refer website for other ways, https://golangci-lint.run/usage/install/
+# 4. Hook will validate go files on commit. It will try fixing some issues, but some issues will need manual intervention.
+#
+# Reference: https://pre-commit.com/
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+  - repo: https://github.com/tekwizely/pre-commit-golang
+    rev: v1.0.0-rc.1
+    hooks:
+      - id: go-fmt
+      - id: go-vet-mod
+      - id: go-mod-tidy-repo
+        args: ["--hook:env:GOPRIVATE=gitlab.com/majorleaguesoccer/*"]
+      - id: golangci-lint-mod
+        args: ["--enable", "errcheck,goimports,gosimple,govet,unused", "--fix"]
+        files: \.(go|yml)$
+        verbose: true

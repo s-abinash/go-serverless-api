@@ -1,0 +1,49 @@
+service: go-serverless-api
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: provided.al2 # Change to provided.al2 while deployment
+  stage: ${opt:stage, 'dev'}
+  architecture: arm64
+  timeout: 30 # Change to 30 while deployment
+  memorySize: 256
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:PutItem
+        - dynamodb:GetItem
+      Resource: arn:aws:dynamodb:us-east-1:*:table/user-db-dev
+  environment:
+    LOG_LEVEL: ${env:LOG_LEVEL}
+    DYNAMO_TABLE: ${env:DYNAMO_TABLE}
+
+useDotenv: true
+
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+  - serverless-go-plugin
+
+custom:
+  go:
+    supportedRuntimes: [ "provided.al2" ]
+    buildProvidedRuntimeAsBootstrap: true
+  dotenv:
+    required:
+      env:
+        - DYNAMO_TABLE
+        - ENV
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+functions:
+  - ${file(functions/functions.yml):functions}

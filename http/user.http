@@ -1,0 +1,18 @@
+### Test Function
+GET {{host}}/{{stage}}/hello
+Accept: application/json
+
+### Save a User
+POST {{host}}/{{stage}}/user
+Content-Type: application/json
+
+{
+  "name": "Pheobe Buffay",
+  "email": "princessconsuela@gmail.com",
+  "age": 30,
+  "isActive": true
+}
+
+### Get a User
+GET {{host}}/{{stage}}/user/01HPSGSYQRV6HPW7PWBXWPJ7CM
+Accept: application/json

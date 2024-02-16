@@ -1,0 +1,24 @@
+functions:
+  hello:
+    name: hello
+    handler: functions/hello/main.go
+    events:
+      - http:
+          path: /hello
+          method: get
+
+  save-user:
+    name: save-user
+    handler: functions/save-user/main.go
+    events:
+      - http:
+          path: /user
+          method: post
+
+  get-user:
+    name: get-user
+    handler: functions/get-user/main.go
+    events:
+      - http:
+          path: /user/{userID}
+          method: get
